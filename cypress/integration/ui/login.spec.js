@@ -57,7 +57,7 @@ describe("Negative Login Page Cases", () => {
     cy.get(usernameErrorLoc);
     cy.get(passwordErrorLoc);
   });
-  it.only("should return Forbidden", () => {
+  it("should return Forbidden", () => {
     cy.mockLoginApi("POST");
     const username = "aaa";
     const password = "test123";

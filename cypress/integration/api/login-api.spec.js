@@ -1,8 +1,12 @@
-const { expect } = require("chai");
+import { faker } from "@faker-js/faker";
+import { expect } from "chai";
+
+const default_username = Cypress.env("DEFAULT_USERNAME");
+const default_password = Cypress.env("DEFAULT_PASSWORD");
 
 describe("Positive API Login Cases", () => {
-  const username = "aaa";
-  const password = "test123";
+  const username = default_username;
+  const password = default_password;
 
   it("should successfully log in with valid credentials", () => {
     cy.loginViaApi(username, password).then((response) => {
@@ -15,41 +19,31 @@ describe("Positive API Login Cases", () => {
     const type = "WRONG_TYPE";
     cy.loginViaApi(username, password, type).then((response) => {
       expect(response.status).to.equal(200);
+      expect(response.headers).to.have.property("set-cookie");
+      expect(response.body.user.uuid).to.be.a("string");
     });
   });
 });
 
 describe("Negative API Login Cases", () => {
-  it("should reject login with too short password", () => {
-    const username = "aaa";
-    const password = "1";
+  const username = faker.internet.userName();
+  const password = faker.internet.password();
 
-    cy.loginViaApi(username, password).then((response) => {
+  it("should reject login with too short password", () => {
+    const shortPassword = "a";
+    cy.loginViaApi(username, shortPassword).then((response) => {
       expect(response.status).to.equal(401);
     });
   });
 
-  it("should reject login with no password provided", () => {
-    const username = "aaa";
-
-    cy.loginViaApi(username).then((response) => {
-      expect(response.status).to.equal(400);
-    });
-  });
-
   it("should reject login for existing user with wrong password", () => {
-    const username = "aaa";
-    const password = "wrong_password";
-
+    const username = default_username;
     cy.loginViaApi(username, password).then((response) => {
       expect(response.status).to.equal(401);
     });
   });
 
   it("should reject login for non-existing user with wrong password", () => {
-    const username = "non_existing_user";
-    const password = "wrong_password";
-
     cy.loginViaApi(username, password).then((response) => {
       expect(response.status).to.equal(401);
     });
@@ -61,16 +55,14 @@ describe("Negative API Login Cases", () => {
     });
   });
 
-  it("should reject login with no password key in the body", () => {
-    const username = "non_existing_user";
-    cy.loginViaApi(username, null).then((response) => {
+  it("should reject login with no username key in the body", () => {
+    cy.loginViaApi(null, password).then((response) => {
       expect(response.status).to.equal(400);
     });
   });
 
-  it("should reject login with no username key in the body", () => {
-    const password = "non_existing_user";
-    cy.loginViaApi(null, password).then((response) => {
+  it("should reject login with no password provided", () => {
+    cy.loginViaApi(username, null).then((response) => {
       expect(response.status).to.equal(400);
     });
   });
