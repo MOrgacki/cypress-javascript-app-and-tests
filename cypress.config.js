@@ -5,6 +5,7 @@ const whichEnv = credidentials.dev;
 
 const main_url = whichEnv.main_url;
 const apiUrl = whichEnv.api_url;
+const default_username = credidentials.users_data.default_username;
 const default_password = credidentials.users_data.default_password;
 
 module.exports = defineConfig({
@@ -17,6 +18,7 @@ module.exports = defineConfig({
     specPattern: "cypress/integration/**/*.spec.js",
     env: {
       API_BASE_URL: `${apiUrl}`,
+      DEFAULT_USERNAME: default_username,
       DEFAULT_PASSWORD: default_password,
     },
     setupNodeEvents(on, config) {

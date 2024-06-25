@@ -9,12 +9,14 @@ describe("Positive API Login Cases", () => {
   const password = default_password;
 
   it("should successfully log in with valid credentials", () => {
+    console.log(username, password);
     cy.loginViaApi(username, password).then((response) => {
       expect(response.status).to.equal(200);
       expect(response.headers).to.have.property("set-cookie");
       expect(response.body.user.uuid).to.be.a("string");
     });
   });
+
   it("should handle other type methods gracefully", () => {
     const type = "WRONG_TYPE";
     cy.loginViaApi(username, password, type).then((response) => {

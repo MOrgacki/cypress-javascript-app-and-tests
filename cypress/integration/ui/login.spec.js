@@ -1,3 +1,6 @@
+const default_username = Cypress.env("DEFAULT_USERNAME");
+const default_password = Cypress.env("DEFAULT_PASSWORD");
+
 before(() => {
   cy.exec("npm run db:seed:dev");
 });
@@ -7,8 +10,8 @@ beforeEach(() => {
 });
 
 describe("Positive Login Page Cases", () => {
-  const username = "aaa";
-  const password = "test123";
+  const username = default_username;
+  const password = default_password;
 
   it("should verify redirect to login page", () => {
     const route = "/signin";
@@ -38,10 +41,9 @@ describe("Positive Login Page Cases", () => {
 });
 
 describe("Negative Login Page Cases", () => {
+  const username = "wrong_username";
+  const password = "wrong_password";
   it("shouldn't login with incorrect username and password", () => {
-    const username = "wrong_username";
-    const password = "wrong_password";
-
     const errorMessageLoc = '[data-test="signin-error"]';
 
     cy.loginViaUi(username, password, false, true);
@@ -59,8 +61,6 @@ describe("Negative Login Page Cases", () => {
   });
   it("should return Forbidden", () => {
     cy.mockLoginApi("POST");
-    const username = "aaa";
-    const password = "test123";
     cy.loginViaUi(username, password, true, true);
 
     cy.wait("@loginRequest").then((interception) => {

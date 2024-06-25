@@ -85,6 +85,17 @@
       "balance": 148899,
       "createdAt": "2024-02-15T08:37:28.560Z",
       "modifiedAt": "2024-06-24T20:32:43.735Z"
+    },
+    {
+      "id": "MlEQnQqPQ",
+      "uuid": "e448c388-db11-43e8-a073-f1939e853adf",
+      "firstName": "new",
+      "lastName": "new",
+      "username": "new",
+      "password": "$2a$10$/39lkOppYts6lLbBJMrwJOQeqyynmJ1yrEsnLJ9fBilyzN6oHMXCC",
+      "balance": 0,
+      "createdAt": "2024-06-25T17:05:10.426Z",
+      "modifiedAt": "2024-06-25T17:05:10.426Z"
     }
   ],
   "contacts": [
