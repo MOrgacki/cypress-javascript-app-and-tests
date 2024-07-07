@@ -1,5 +1,3 @@
-
-
 ---
 
 # Cypress Real World App Testing
